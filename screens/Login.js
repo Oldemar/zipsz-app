@@ -32,10 +32,9 @@ class Login extends Component {
             >
                 <Block center middle>
                     <Block middle>
-                        <Image
-                            source={require('../assets/images/Base/Logo.png')}
-                            style={{height: 28, width: 102}}
-                        />
+                        <Text>
+                            LOGO
+                        </Text>
                     </Block>
                     <Block flex={2.5} center>
                         <Text h3 style={{marginBottom: 6}}>
@@ -48,7 +47,7 @@ class Login extends Component {
                             <Input
                                 full
                                 email
-                                label="Email address"
+                                label="Email address or Username"
                                 style={{marginBottom: 25}}
                                 onChangeText={text => store.UserStore.credentials.username = text }
                                 value={store.UserStore.credentials.username}

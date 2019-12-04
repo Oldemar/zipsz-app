@@ -1,9 +1,9 @@
 import React from 'react';
 import { createAppContainer, createSwitchNavigator } from 'react-navigation';
 
-import Screens from './Screens';
 import Auth from './Auth';
-import {inject, observer} from "mobx-react";
+import { observer} from "mobx-react";
+import Screens from "./Screens";
 
 export default
     observer(
@@ -12,7 +12,7 @@ export default
                 Auth,
                 Screens,
             },{
-                initialRouteName: store.UserStore.loggedIn ? 'Screens':'Auth'
+                initialRouteName: 'Auth'
             })
         )
 );

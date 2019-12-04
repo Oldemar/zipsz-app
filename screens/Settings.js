@@ -8,7 +8,3 @@ export default function Settings() {
    */
   return <ExpoConfigView />;
 }
-
-Settings.navigationOptions = {
-  title: 'app.json',
-};

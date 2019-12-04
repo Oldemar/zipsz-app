@@ -1,34 +1,72 @@
 import { observable, action, decorate } from 'mobx'
 
-
 class UserStore {
 
     loggedIn = false;
     isDriverOff = true;
-    role = 5;
+    role = 1;
     credentials = {
         username : '',
         password : ''
     };
-    screens = ['','Owner','Admin', 'Manager', 'Vendor', 'Driver','','','','Guest'];
-    currUser = {
-        Personal: {
-            id: 0,
-            username: '',
-            password: '',
-            email: '',
-            first_name: '',
-            last_name: '',
-            full_name: '',
-            loginStatus: 0,
-
+    screens = [
+        {
+            roles:[1,2,3,4,5,6,7,8,9],
+            navRoute: 'Overview',
+            navName: 'Overview',
+            navIcon: 'md-business'
         },
+        {
+            roles:[1,2,3,4,5],
+            navRoute: 'Deliver',
+            navName: 'Deliver',
+            navIcon: 'md-basket'
+        },
+        {
+            roles:[1,2,3,4],
+            navRoute: 'Driver',
+            navName: 'Driver',
+            navIcon: 'md-car'
+        },
+        {
+            roles:[1,2,4],
+            navRoute: 'Order',
+            navName: 'Order',
+            navIcon: 'md-restaurant'
+        },
+        {
+            roles:[1,2,3,4,5,6,7,8,9],
+            navRoute: 'Profile',
+            navName: 'Profile',
+            navIcon: 'md-today'
+        },
+        {
+            roles:[1,2,3,4,5],
+            navRoute: 'Settings',
+            navName: 'Settings',
+            navIcon: 'md-settings'
+        },
+        {
+            roles:[1,2,3],
+            navRoute: 'User',
+            navName: 'User',
+            navIcon: 'md-people'
+        },
+        {
+            roles:[1,2,3,4,5,6,7,8,9],
+            navRoute: 'Logoff',
+            navName: 'Logoff',
+            navIcon: 'md-log-out'
+        },
+    ];
+    currUser = {
+        Personal: {},
     };
 
     isOnline = (userId) => {
         const random_boolean = Math.random() >= 0.5;
         return random_boolean;
-    }
+    };
 
     changeLoginStatus = () => {
         this.loggedIn = !this.loggedIn;
@@ -43,27 +81,37 @@ class UserStore {
             username : '',
             password : ''
         }
-    }
+    };
 
-    checkCredentials = () => {
-
-        fetch('http://api.zonalivre.news/users/login', {
+    checkCredentials = async () => {
+        const post = {
+            function: 'login',
+            username: this.credentials.username,
+            password: this.credentials.password,
+        };
+        const url = 'http://api.zipsz.com';
+        const options = {
             method: 'POST',
-            headers:{
+            headers: {
                 'Accept': 'application/json',
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/x-www-form-urlencoded',
             },
-            body: JSON.stringify(this.credentials),
-        })
-            .then( res => res.json() )
-            .then( (data) =>  {
-                this._setCurrUser(data);
-            });
-    }
-
-    _setCurrUser = data => {
-        this.loggedIn = data.loginStatus ? 1 : 0 ;
-        this.currUser.Personal = data.loginStatus ? { full_name: 'Oldie dad' } : data;
+            body: JSON.stringify(post),
+        };
+        try {
+            await fetch( url, options )
+                .then( res => {
+                    return res.json()
+                })
+                .then( ( data ) => {
+                    if (data && data.length) {
+                        this.loggedIn = true;
+                        this.currUser.Personal = data;
+                    }
+                });
+        } catch (error) {
+            alert(error);
+        }
     }
 
 }

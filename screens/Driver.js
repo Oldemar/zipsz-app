@@ -1,21 +1,39 @@
-import {ScrollView} from "react-native";
-import React from "react";
-import Text from "react-native-web/dist/exports/Text";
+import React, { Component } from "react";
+import {ScrollView, Text, StyleSheet, TouchableOpacity} from "react-native";
+import {Block, Icon} from "../components";
 
-export default function Driver() {
-    return (
-        <ScrollView style={styles.container}>
-            {/**
-             * Go ahead and delete ExpoLinksView and replace it with your content;
-             * we just wanted to provide you with some helpful links.
-             */}
-            <Text>
-                Bla Bla Bla DRIVER
-            </Text>
-        </ScrollView>
-    );
+export default class Driver extends Component {
+    static navigationOptions = {
+        headerLeftContainerStyle: {
+            paddingLeft: 24
+        },
+        headerRightContainerStyle: {
+            paddingRight: 24
+        },
+        headerLeft: (
+            <TouchableOpacity><Icon menu onPress={()=>this.props.navigation.toggleDrawer()}/></TouchableOpacity>
+        ),
+        headerRight: (
+            <TouchableOpacity><Icon notification /></TouchableOpacity>
+        ),
+        headerTitle: (
+            <Block row middle><Text h4>Deliver</Text></Block>
+        ),
+    };
+    render(){
+        return (
+            <ScrollView style={styles.container}>
+                <Text>
+                    Bla Bla Bla DRIVER
+                </Text>
+            </ScrollView>
+        );
+    }
 }
 
-Driver.navigationOptions = {
-    title: 'Driver',
-};
+const styles =StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: 'lightgray',
+    },
+});

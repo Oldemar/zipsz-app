@@ -1,47 +1,38 @@
 import React, { Component } from 'react';
 import { TouchableOpacity, Image, SafeAreaView, ScrollView, StyleSheet } from 'react-native';
-
 import { Block, Card, Text, Icon, Label } from '../components';
 import * as theme from '../constants/theme';
 
-const styles = StyleSheet.create({
-    overview: {
-        flex: 1,
-        flexDirection: 'column',
-        backgroundColor: theme.colors.white,
-    },
-    margin: {
-        marginHorizontal: 25,
-    },
-    driver: {
-        marginBottom: 11,
-    },
-    avatar: {
-        width: 48,
-        height: 48,
-        borderRadius: 24,
-    }
-});
+
 
 class Overview extends Component {
-    static navigationOptions = {
-        headerLeftContainerStyle: {
-            paddingLeft: 24
-        },
-        headerRightContainerStyle: {
-            paddingRight: 24
-        },
-        headerLeft: (
-            <TouchableOpacity><Icon menu /></TouchableOpacity>
-        ),
-        headerRight: (
-            <TouchableOpacity><Icon notification /></TouchableOpacity>
-        ),
-        headerTitle: (
-            <Block row middle><Text h4>Overview</Text></Block>
-        )
-    }
-
+    static navigationOptions = ({ navigation }) => {
+        return {
+            headerLeftContainerStyle: {
+                paddingLeft: 24
+            },
+            headerRightContainerStyle: {
+                paddingRight: 24
+            },
+            headerLeft: (
+                <TouchableOpacity onPress={() => navigation.openDrawer()} >
+                    <Icon menu />
+                </TouchableOpacity>
+            ),
+            headerRight: (
+                <TouchableOpacity>
+                    <Icon notification/>
+                </TouchableOpacity>
+            ),
+            headerTitle: (
+                <Block row middle>
+                    <Text h4>
+                        Overview
+                    </Text>
+                </Block>
+            ),
+        }
+    };
     render() {
         return (
             <SafeAreaView style={styles.overview}>
@@ -61,22 +52,8 @@ class Overview extends Component {
                         </Block>
                     </Card>
 
-                    <Block row style={[styles.margin, { marginTop: 18 }]}>
-                        <Card middle style={{ marginRight: 7 }}>
-                            <Icon vehicle />
-                            <Text h3 style={{ marginTop: 17 }}>U$ 18.00</Text>
-                            <Text paragraph color="gray">Delivery Fees</Text>
-                        </Card>
-
-                        <Card middle style={{ marginLeft: 7 }}>
-                            <Icon distance />
-                            <Text h3 style={{ marginTop: 17 }}>U$ 33.80</Text>
-                            <Text paragraph color="gray">Earned until now</Text>
-                        </Card>
-                    </Block>
-
                     <Card
-                        title={store.UserStore.credentials.username}
+                        title="Oldemar"
                         style={[styles.margin, { marginTop: 18 }]}
                     >
                         <Block row right>
@@ -90,7 +67,9 @@ class Overview extends Component {
                             </Block>
                         </Block>
                         <Block>
-                            <Text>Chart</Text>
+                            <Text>
+                                {store.UserStore.currUser.Personal[0].email}
+                            </Text>
                         </Block>
                     </Card>
 
@@ -191,3 +170,23 @@ class Overview extends Component {
 }
 
 export default Overview;
+
+const styles = StyleSheet.create({
+    overview: {
+        flex: 1,
+        flexDirection: 'column',
+        backgroundColor: theme.colors.white,
+    },
+    margin: {
+        marginHorizontal: 25,
+    },
+    driver: {
+        marginBottom: 11,
+    },
+    avatar: {
+        width: 48,
+        height: 48,
+        borderRadius: 24,
+    }
+});
+
